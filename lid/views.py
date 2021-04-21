@@ -16,7 +16,8 @@ def index(request):
     addr = request.GET.get('adr')
 
     token = "a47b1aee73b17dd7ba087adc76b6db067ca725e2"
-    secret = "0df1d0a5d779dfb9e16ca9beeeec1844053f0cad"
+    with open('secret_key.txt') as f:
+        secret = f.read().strip()
     dadata = Dadata(token, secret)
     result = dadata.clean("name", name)
 
