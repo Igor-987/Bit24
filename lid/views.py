@@ -3,7 +3,6 @@ import requests
 from dadata import Dadata
 
 
-# Create your views here.
 def index(request):
     """
     Функция отображения для домашней страницы сайта.
@@ -12,7 +11,7 @@ def index(request):
     fio = request.GET.get('fio')
     phone = request.GET.get('phone')
     adr = request.GET.get('adr')
-
+    number = 0
 
     if fio or phone or adr:
         if not fio:
@@ -38,9 +37,12 @@ def index(request):
                 }
 
         r = requests.post('https://b24-ordgbr.bitrix24.ru/rest/1/ehkb815cbixn3h64/crm.lead.add.json', data=load)
+        number = r.json()['result']
+
 
 
     return render(
         request,
         'index.html',
+        context={'r': number},
     )

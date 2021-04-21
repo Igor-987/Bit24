@@ -15,8 +15,13 @@
         <input type="text" name="adr" placeholder="Адрес"><br>
         <button type="submit">Отправить форму</button>
 </form>
-    <br>
-     
+    
+    {% if r == 0 %} 
+    <p><strong>Заполните хотя бы одно поле.</strong></p>
+    {% else %}
+    <p><strong>Успешно создан новый лид с номером:</strong> {{ r }}</p>
+    {% endif %}
+    
     <footer>Иркутск 2021</footer>
 </body>
 
