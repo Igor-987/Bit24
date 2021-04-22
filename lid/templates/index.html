@@ -16,13 +16,17 @@
         <button type="submit">Отправить форму</button>
 </form>
     
-    {% if r == 0 %} 
-    <p><strong>Заполните хотя бы одно поле.</strong></p>
-    {% else %}
-    <p><strong>Успешно создан новый лид с номером:</strong> {{ r }}</p>
+    {% if number1 == 0 and number2 == 0 %} 
+    <p>Заполните хотя бы одно поле.</p>
+    {% elif number1 == 0 and number2 != 0 %}
+    <p>Успешно создан новый лид с номером: {{ number2 }} без привязки к контакту</p>
+    {% elif number1 != 0 and number2 == 0 and comp_name %}
+    <p>Успешно создан новый лид с номером: {{ number1 }} с привязкой к контакту {{ cont_name }} и компании {{ comp_name }}</p>
+    {% elif number1 != 0 and number2 == 0 %}
+    <p>Успешно создан новый лид с номером: {{ number1 }} с привязкой к контакту {{ cont_name }}</p>
     {% endif %}
+       
     
-    <footer>Иркутск 2021</footer>
 </body>
 
 </html>
