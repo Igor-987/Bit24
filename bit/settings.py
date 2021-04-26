@@ -24,9 +24,9 @@ with open('DjangoSKey.txt') as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3946e3619c59.ngrok.io']
 
 
 # Application definition

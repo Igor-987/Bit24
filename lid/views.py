@@ -30,20 +30,21 @@ def index(request):
             secret = f.read().strip()
         with Dadata(token, secret) as dadata:
             res_fio = dadata.clean(name="name", source=fio)
-            name = res_fio['name']
-            sname = res_fio['patronymic']
-            lname = res_fio['surname']
+            if res_fio['qc'] == 0:
+                name = res_fio['name']
+                sname = res_fio['patronymic']
+                lname = res_fio['surname']
+            else:
+                name = fio
+                sname = ''
+                lname = ''
             res_addr = dadata.clean(name="address", source=adr)
             addr = res_addr['result']
 
         # данные для фильтрации списка контактов
         filt = {}
-        if name:
-            filt["filter[NAME]"] = name
-        if sname:
-            filt["filter[SECOND_NAME]"] = sname
-        if lname:
-            filt["filter[LAST_NAME]"] = lname
+        if phone:
+            filt["filter[PHONE]"] = phone
         # получаем отфильтрованный список контактов
         list_cont = requests.post('https://b24-ordgbr.bitrix24.ru/rest/1/ehkb815cbixn3h64/crm.contact.list', data=filt)
         count_cont = list_cont.json()['total'] # всего контактов в списке
@@ -52,7 +53,7 @@ def index(request):
         if count_cont == 1: # если найден всего один контакт
             cont_id = list_cont.json()['result'][0]['ID'] # получаем его id
             comp_id = list_cont.json()['result'][0]['COMPANY_ID']  # получаем id компании, к которой он прикреплен
-
+            # получаем имена для отображения в HTML
             cont_n = requests.post('https://b24-ordgbr.bitrix24.ru/rest/1/ehkb815cbixn3h64/crm.contact.get', {'id': cont_id})
             cont_name = cont_n.json()['result']['NAME'] + ' ' + cont_n.json()['result']['LAST_NAME']
 
